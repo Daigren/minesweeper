@@ -1,16 +1,11 @@
-# React + Vite
+# MineSweeper
+Легковесный движок классической игры «Сапёр», написанный на React. Проект сфокусирован на ручной реализации внутренней логики игры: генерации поля, управлении иммутабельным состоянием в React и расчете соседних заминированных ячеек.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Особенности
+**Двумерная матрица состояния**: Поле представляет собой 2D-массив объектов, содержащих флаги состояния каждой клетки (isOpen, isMine, neighborMines).
 
-Currently, two official plugins are available:
+**Иммутабельное обновление React**: Каждое взаимодействие с полем безопасно копирует предыдущее состояние, предотвращая прямое мутирование данных.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Генерация мин и подсчет соседей**: Динамическая проверка координат и автоматический подсчет мин вокруг открываемой ячейки с обработкой выходов за границы поля.
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Адаптивная сетка CSS Grid**: Рендеринг игрового поля с использованием встроенных стилей CSS Grid под заданное количество строк и столбцов.
