@@ -8,10 +8,38 @@ export function createEmptyBoard(rows, cols) {
   );
 }
 
+export function generateBomb(board, row, col) {
+  const bombBoard = board.map(r => [...r]);
+
+  let bombRow = 0
+  let bombCol = 0
+
+  for (let bombNum = 1; bombNum < 200; bombNum++) {
+    const randNum = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+
+    if (randNum == 1) {
+      bombBoard[bombRow][bombCol] = { ...bombBoard[bombRow][bombCol], isMine: true };
+      console.log("bomb here")
+    }
+
+    bombCol++
+    
+    if (bombCol == 19) {
+      
+      bombBoard[bombRow][bombCol] = { ...bombBoard[bombRow][bombCol], isMine: true };
+      console.log("bomb here")
+
+      bombRow++
+      bombCol = 0
+    }
+  }
+
+  return bombBoard;
+}
+
 export function revealCell(board, row, col) {
   const newBoard = board.map(r => [...r]);
   
-  const randNum = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
   const output = `${row}-${col}`;
 
   function quantity() {
@@ -54,11 +82,11 @@ export function revealCell(board, row, col) {
     return quantityNum
   }
 
-  if (newBoard[row][col].isOpen == false) {
-     if (randNum == 1) {
-      newBoard[row][col] = { ...newBoard[row][col], isMine: true };
-    } 
-  }
+  // if (newBoard[row][col].isOpen == false) {
+  //    if (randNum == 1) {
+  //     newBoard[row][col] = { ...newBoard[row][col], isMine: true };
+  //   } 
+  // }
 
   let count = 0
 
@@ -74,7 +102,7 @@ export function revealCell(board, row, col) {
     neighborMines: count 
   };
 
-  console.log(output, newBoard[row][col].isMine, randNum, count)
+  console.log(output, newBoard[row][col].isMine, count)
 
   return newBoard;
 }
