@@ -3,36 +3,55 @@ export function createEmptyBoard(rows, cols) {
     Array.from({ length: cols }, () => ({ 
       isOpen: false, 
       isMine: false,
-      neighborMines: 0
+      neighborMines: 0,
+      isFlagged: false
     }))
   );
 }
 
-export function generateBomb(board, row, col) {
+export function toggleFlag(board, row, col) {
+  const newBoard = board.map(r => [...r]);
+  const cell = newBoard[row][col];
+
+  if (!cell.isOpen) {
+    newBoard[row][col] = {
+      ...cell,
+      isFlagged: !cell.isFlagged
+    };
+  }
+
+  return newBoard;
+}
+
+export function generateBomb(board) {
   const bombBoard = board.map(r => [...r]);
+
+  let testMine = 0
 
   let bombRow = 0
   let bombCol = 0
 
-  for (let bombNum = 1; bombNum < 200; bombNum++) {
-    const randNum = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+  for (let bombNum = 0; bombNum < 200; bombNum++) {
+    const randNum = Math.floor(Math.random() * (6 - 1 + 1)) + 1;
 
     if (randNum == 1) {
       bombBoard[bombRow][bombCol] = { ...bombBoard[bombRow][bombCol], isMine: true };
-      console.log("bomb here")
+      
+    }
+    
+    if (bombBoard[bombRow][bombCol].isMine == true) {
+      testMine++
     }
 
     bombCol++
     
-    if (bombCol == 19) {
-      
-      bombBoard[bombRow][bombCol] = { ...bombBoard[bombRow][bombCol], isMine: true };
-      console.log("bomb here")
-
+    if (bombCol == 20) {
       bombRow++
       bombCol = 0
-    }
+    } 
   }
+
+  console.log(testMine)
 
   return bombBoard;
 }
@@ -54,39 +73,33 @@ export function revealCell(board, row, col) {
     const rightMiddle = [row, col + 1]
     const rightDown = [row - 1, col + 1]
 
-    if (leftMiddle[0] >= 0 && leftMiddle[1] >= 0 && board[leftMiddle[0]][leftMiddle[1]].isMine === true) {
+    if (leftMiddle[0] <= 9 && leftMiddle[1] <= 19 && leftMiddle[0] >= 0 && leftMiddle[1] >= 0 && board[leftMiddle[0]][leftMiddle[1]].isMine === true) {
       quantityNum++;
     }
-    if (leftUp[0] >= 0 && leftUp[1] >= 0 && board[leftUp[0]][leftUp[1]].isMine === true) {
+    if (leftUp[0] <= 9 && leftUp[1] <= 19 && leftUp[0] >= 0 && leftUp[1] >= 0 && board[leftUp[0]][leftUp[1]].isMine === true) {
       quantityNum++;
     }
-    if (leftdown[0] >= 0 && leftdown[1] >= 0 && board[leftdown[0]][leftdown[1]].isMine === true) {
+    if (leftdown[0] <= 9 && leftdown[1] <= 19 && leftdown[0] >= 0 && leftdown[1] >= 0 && board[leftdown[0]][leftdown[1]].isMine === true) {
       quantityNum++;
     }
-    if (middleUp[0] >= 0 && middleUp[1] >= 0 && board[middleUp[0]][middleUp[1]].isMine === true) {
+    if (middleUp[0] <= 9 && middleUp[1] <= 19 && middleUp[0] >= 0 && middleUp[1] >= 0 && board[middleUp[0]][middleUp[1]].isMine === true) {
       quantityNum++;
     }
-    if (middleDown[0] >= 0 && middleDown[1] >= 0 && board[middleDown[0]][middleDown[1]].isMine === true) {
+    if (middleDown[0] <= 9 && middleDown[1] <= 19 && middleDown[0] >= 0 && middleDown[1] >= 0 && board[middleDown[0]][middleDown[1]].isMine === true) {
       quantityNum++;
     }
-    if (rightUp[0] >= 0 && rightUp[1] >= 0 && board[rightUp[0]][rightUp[1]].isMine === true) {
+    if (rightUp[0] <= 9 && rightUp[1] <= 19 && rightUp[0] >= 0 && rightUp[1] >= 0 && board[rightUp[0]][rightUp[1]].isMine === true) {
       quantityNum++;
     }
-    if (rightMiddle[0] >= 0 && rightMiddle[1] >= 0 && board[rightMiddle[0]][rightMiddle[1]].isMine === true) {
+    if (rightMiddle[0] <= 9 && rightMiddle[1] <= 19 && rightMiddle[0] >= 0 && rightMiddle[1] >= 0 && board[rightMiddle[0]][rightMiddle[1]].isMine === true) {
       quantityNum++;
     }
-    if (rightDown[0] >= 0 && rightDown[1] >= 0 && board[rightDown[0]][rightDown[1]].isMine === true) {
+    if (rightDown[0] <= 9 && rightDown[1] <= 19 && rightDown[0] >= 0 && rightDown[1] >= 0 && board[rightDown[0]][rightDown[1]].isMine === true) {
       quantityNum++;
     }
 
     return quantityNum
   }
-
-  // if (newBoard[row][col].isOpen == false) {
-  //    if (randNum == 1) {
-  //     newBoard[row][col] = { ...newBoard[row][col], isMine: true };
-  //   } 
-  // }
 
   let count = 0
 
